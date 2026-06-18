@@ -1,0 +1,39 @@
+const User = require("../schemas/user");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const protectedRoute = async (req, res, next) => {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+        return res.status(401).json({ message: "Unauthorized - Access token expired" });
+    }
+    try {
+        const decode = jwt.verify(accessToken, process.env.JWT);
+        const user = await User.findById(decode.userId);
+        if (!user) {
+            return res.status(401).json({ message: "user not found" });
+        }
+        req.user = user;
+        next();
+    } catch (error) {
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).jos({ message: "Unauthorized - Access token expired" })
+        }
+    }
+};
+
+const isAdmin = async (req, res, next) => {
+    try {
+        if (req.user && req.user?.isAdmin === true) {
+            next();
+        } else {
+            return res.status(403).json({ message: "Access denied only admin" })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "error in isAdmin router" })
+    }
+};
+
+module.exports = { protectedRoute, isAdmin };
+
