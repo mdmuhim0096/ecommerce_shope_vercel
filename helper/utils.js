@@ -9,7 +9,7 @@ function simpleClean(text) {
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
-}
+};
 
 function buildVocabulary(texts, vocabSize = 5000) {
 
@@ -30,12 +30,12 @@ function buildVocabulary(texts, vocabSize = 5000) {
     }
     return vocab;
 
-}
+};
 
 function textToSequence(text, vocab) {
     const words = simpleClean(text).split(" ");
     return words.map(w => (vocab[w] ? vocab[w] : 1));
-}
+};
 
 function padSequences(sequences, maxLen = 100) {
     return sequences.map(seq => {
@@ -46,14 +46,14 @@ function padSequences(sequences, maxLen = 100) {
         for (let i = 0; i < seq.length; i++) out[i] = seq[i];
         return out;
     });
-}
+};
 
 function normalizeNumberArray(arr) {
     const min = Math.min(...arr);
     const max = Math.max(...arr);
     const denom = max - min || 1;
     return arr.map(v => (v - min) / denom);
-}
+};
 
 module.exports = {
     buildVocabulary,
