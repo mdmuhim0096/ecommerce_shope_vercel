@@ -10,7 +10,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const serverless = require("serverless-http");
 
-const { clientUrl } = require("./helper/utils");
+const { clientUrl } = require("../helper/utils");
 
 app.use(bodyParser.json());
 app.use(cookieParser());

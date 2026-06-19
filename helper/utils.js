@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const clientUrl = "http://localhost:5173"
+const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
 
 function simpleClean(text) {
     return (text || "")
