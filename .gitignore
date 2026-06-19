@@ -26,3 +26,4 @@ dist-ssr
 client/node_modules
 clirnt/.env
 .env
+package-lock.json
